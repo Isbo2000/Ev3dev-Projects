@@ -14,16 +14,24 @@ rightMotor = LargeMotor(OUTPUT_A)
 tankDrive = MoveTank(OUTPUT_B, OUTPUT_A)
 
 while True:
-    if (irSensor.top_left(1)):
-        leftMotor.on(100)
-    elif (irSensor.bottom_left(1)):
-        leftMotor.on(-100)
+    if (irSensor.beacon(1)):
+        while irSensor.beacon(1):
+            tankDrive.on(100, 100)
+            if (irSensor.proximity < 10):
+                tankDrive.on(100, -100)
+                time.sleep(0.5)
+        
     else:
-        leftMotor.off()
-    
-    if (irSensor.top_right(1)):
-        rightMotor.on(100)
-    elif (irSensor.bottom_right(1)):
-        rightMotor.on(-100)
-    else:
-        rightMotor.off()
+        if (irSensor.top_left(1)):
+            leftMotor.on(100)
+        elif (irSensor.bottom_left(1)):
+            leftMotor.on(-100)
+        else:
+            leftMotor.off()
+        
+        if (irSensor.top_right(1)):
+            rightMotor.on(100)
+        elif (irSensor.bottom_right(1)):
+            rightMotor.on(-100)
+        else:
+            rightMotor.off()
